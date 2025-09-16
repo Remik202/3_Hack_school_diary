@@ -7,13 +7,13 @@
 ## Функции
 
 ### `fix_marks(schoolkid)`
-Заменяет все оценки 2 и 3 у переданного ученика на 5.
+Заменяет все оценки 2 и 3 у переданного ученика на 5.  Функция проверяет, что ученик существует перед попыткой изменения оценок. Если ученик не найден, выводится сообщение об ошибке.
 
 ### `remove_chastisements(schoolkid)`
-Удаляет все замечания у переданного ученика.
+Удаляет все замечания у переданного ученика. Функция проверяет, что ученик существует перед удалением замечаний. Если ученик не найден, выводится сообщение об ошибке.
 
 ### `create_commendation(schoolkid_name, subject)`
-Добавляет случайную похвалу для указанного ученика по предмету.
+Добавляет случайную похвалу для указанного ученика по предмету.  Функция использует имя ученика (частичное совпадение) и название предмета.
 
 ---
 
@@ -22,23 +22,18 @@
 1. Откройте Django shell.
 
 2. Импортируйте функции:
+```python
+    from scripts import fix_marks, remove_chastisements, create_commendation
+    from datacenter.models import Schoolkid
 ```
-	from scripts import fix_marks, remove_chastisements, create_commendation
-	from datacenter.models import Schoolkid
-```
-
-
 3 Найдите ученика.
 Например Фралов Иван:
 ```
-	kid = Schoolkid.objects.get(full_name__contains='Фролов Иван')
+    kid = Schoolkid.objects.get(full_name__contains='Фролов Иван')
 ```
+Используйте функции:
+    fix_marks(kid)
+    remove_chastisements(kid)
+    create_commendation('Фролов Иван', 'Музыка')
 
-4. Используйте функции:
-```
-	fix_marks(kid)
-	remove_chastisements(kid)
-	create_commendation('Фролов Иван', 'Музыка')
-```
-
-Список комплиментов для похвалы хранится в COMMENDATIONS внутри scripts.py.
+Список комплиментов для похвалы хранится в COMMENDATIONS внутри scripts.py.  Функции включают проверки на существование ученика, чтобы избежать ошибок при работе с несуществующими данными
